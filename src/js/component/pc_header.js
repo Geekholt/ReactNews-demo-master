@@ -18,7 +18,7 @@ export default class PCHeader extends React.Component {
             <header>
                 <Row>
                     <Col span={2}></Col>
-                    <Col span={4}>
+                     <Col span={4}>
                         <a href="/" className="logo">
                             <img src={logo} alt="logo"/>
                             <span>ReactNews</span>
