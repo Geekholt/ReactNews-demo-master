@@ -12,3 +12,8 @@
     font-size: 24px;
     padding-left: 5px;
 }
+
+.footer {
+    display: flex;
+    justify-content: center;
+}

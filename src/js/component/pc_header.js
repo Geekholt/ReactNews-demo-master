@@ -1,6 +1,5 @@
 import React from 'react';
 import {Row, Col, Menu, Icon} from 'antd';
-import SubMenu from "antd/es/menu/SubMenu";
 
 const logo = require('../../images/logo.png')
 
