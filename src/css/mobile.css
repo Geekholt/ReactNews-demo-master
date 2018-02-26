@@ -21,3 +21,11 @@ html {
     padding-left: 10px;
     color: #2db7f5;
 }
+
+#mobileHeader header i {
+    font-size: 30px;
+    color: #2db7f5;
+    float: right;
+    margin-top: 10px;
+    margin-right: 13px;
+}

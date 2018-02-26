@@ -9,23 +9,108 @@ import {
     Tabs,
     Input,
     Form,
-    Checkbox
+    Checkbox,
+    message
 } from 'antd';
+import register from "../../registerServiceWorker";
+import 'whatwg-fetch';
 
-const logo = require('../../images/logo.png')
+const logo = require('../../images/logo.png');
 const TabPane = Tabs.TabPane;
 const FormItem = Form.Item;
 
 class PCHeader extends React.Component {
-
     constructor() {
         super();
         this.state = {
             current: ["top"],
             hasLogined: false,
-            username: 'geekholt',
+            username: '',
+            userId: '',
             loginModalVisible: false,
+            action: 'login'
         }
+    }
+
+    componentWillMount() {
+        if (localStorage.userid != '') {
+            this.setState({
+                hasLogined: true,
+                username: localStorage.userNickName,
+                userid: localStorage.userid
+            });
+        }
+    }
+
+    handleHeadMenuClick(e) {
+        this.setState({
+            current: [e.key]
+        });
+
+        if (e.key === 'register') {
+            this.setState({
+                loginModalVisible: true
+            });
+        }
+    }
+
+    setModalVisible(value) {
+        this.setState({
+            loginModalVisible: value
+        });
+    }
+
+    onTabChange(key) {
+        console.log(key);
+        this.setState({
+            action: key
+        });
+    }
+
+    handleSubmit(e) {
+        e.preventDefault();
+        this.props.form.validateFields((err, values) => {
+            var options = {
+                method: 'GET'
+            };
+            var url = "http://newsapi.gugujiankong.com/Handler.ashx?action=" + this.state.action
+                + "&username=" + values.l_username + "&password=" + values.l_password
+                + "&r_userName=" + values.r_username + "&r_password="
+                + values.r_password + "&r_confirmPassword="
+                + values.r_confirm_password
+
+            console.log(values);
+            console.log("url:" + url);
+
+            fetch(url, options)
+                .then(response => response.json())
+                .then(json => {
+                    console.log(json);
+                    if (json != null) {
+                        if (this.state.action === 'login') {
+                            this.setState({
+                                hasLogined: true,
+                                username: json.NickUserName,
+                                userId: json.UserId
+                            });
+                            localStorage.userid = json.UserId;
+                            localStorage.userNickName = json.NickUserName;
+                        }
+                        this.setModalVisible(false);
+                        message.success('登录成功');
+                    } else {
+                        message.error('用户名或密码错误');
+                    }
+                });
+        });
+    }
+
+    logout() {
+        this.setState({
+            hasLogined: false,
+        });
+        localStorage.userid = '';
+        localStorage.userNickName = '';
     }
 
     render() {
@@ -37,13 +122,12 @@ class PCHeader extends React.Component {
                 &nbsp;&nbsp;
                 <Button type="dashed">个人中心</Button>
                 &nbsp;&nbsp;
-                <Button type="ghost">退出</Button>
+                <Button type="ghost" onClick={this.logout.bind(this)}>退出</Button>
             </Menu.Item>
             :
             <Menu.Item key="register">
                 <Icon type="appstore"/> 注册/登录
             </Menu.Item>
-
 
         return (
             <header>
@@ -57,7 +141,7 @@ class PCHeader extends React.Component {
                     </Col>
                     <Col span={14}>
                         <Menu mode="horizontal" selectedKeys={this.state.current}
-                              onClick={this.handleHeadMenuClick}>
+                              onClick={this.handleHeadMenuClick.bind(this)}>
                             <Menu.Item key="top">
                                 <Icon type="appstore"/> 头条
                             </Menu.Item>
@@ -99,15 +183,19 @@ class PCHeader extends React.Component {
                         onCancel={() => this.setModalVisible(false)}
                         okText="关闭"
                         cancelText="取消">
-                        <Tabs type="card">
-                            <TabPane tab="登录" key="1">
-                                <Form className="login-form">
+                        <Tabs type="card" onChange={this.onTabChange.bind(this)}>
+                            <TabPane tab="登录" key="login">
+                                <Form className="login-form" onSubmit={this.handleSubmit.bind(this)}>
                                     <FormItem label="用户名">
-                                        <Input placeholder="请输入用户名" {...getFieldDecorator('r_username')}/>
+                                        {getFieldDecorator(`l_username`)(
+                                            <Input placeholder="请输入用户名"/>
+                                        )}
                                     </FormItem>
 
                                     <FormItem label="密码">
-                                        <Input type="password" placeholder="请输入密码" {...getFieldDecorator('r_password')}/>
+                                        {getFieldDecorator(`l_password`)(
+                                            <Input type="password" placeholder="请输入密码"/>
+                                        )}
                                     </FormItem>
 
                                     <FormItem>
@@ -117,32 +205,39 @@ class PCHeader extends React.Component {
                                     </FormItem>
                                 </Form>
                             </TabPane>
-                            <TabPane tab="注册" key="2">
-                                <FormItem label="用户名">
-                                    <Input placeholder="请输入用户名" {...getFieldDecorator('r_username')}/>
-                                </FormItem>
+                            <TabPane tab="注册" key="register">
+                                <Form className="register-form" onSubmit={this.handleSubmit.bind(this)}>
+                                    <FormItem label="用户名">
+                                        {getFieldDecorator(`r_username`)(
+                                            <Input placeholder="请输入用户名"/>
+                                        )}
+                                    </FormItem>
 
-                                <FormItem label="密码">
-                                    <Input type="password" placeholder="请输入密码" {...getFieldDecorator('r_password')}/>
-                                </FormItem>
+                                    <FormItem label="密码">
+                                        {getFieldDecorator(`r_password`)(
+                                            <Input placeholder="请输入密码" type="password"/>
+                                        )}
+                                    </FormItem>
 
-                                <FormItem label="确认密码">
-                                    <Input type="password"
-                                           placeholder="请再次输出密码" {...getFieldDecorator('r_confirm_password')}/>
-                                </FormItem>
+                                    <FormItem label="确认密码">
+                                        {getFieldDecorator(`r_confirm_password`)(
+                                            <Input placeholder="请再次输入密码" type="password"/>
+                                        )}
+                                    </FormItem>
 
-                                <FormItem>
-                                    <Button type="primary" htmlType="submit">
-                                        注册
-                                    </Button>
-                                </FormItem>
+                                    <FormItem>
+                                        <Button type="primary" htmlType="submit">
+                                            注册
+                                        </Button>
+                                    </FormItem>
+                                </Form>
                             </TabPane>
                         </Tabs>
                     </Modal>
 
-
                     <Col span={2}>
-                        <Menu mode="horizontal" onClick={this.handleHeadMenuClick} selectedKeys={this.state.current}>
+                        <Menu mode="horizontal" onClick={this.handleHeadMenuClick.bind(this)}
+                              selectedKeys={this.state.current}>
                             {userShow}
                         </Menu>
                     </Col>
@@ -152,23 +247,6 @@ class PCHeader extends React.Component {
         );
     };
 
-    handleHeadMenuClick = (e) => {
-        this.setState({
-            current: [e.key]
-        });
-
-        if (e.key === 'register') {
-            this.setState({
-                loginModalVisible: true
-            });
-        }
-    }
-
-    setModalVisible = (value) => {
-        this.setState({
-            loginModalVisible: value
-        });
-    }
 
 }
 

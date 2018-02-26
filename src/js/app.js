@@ -1,6 +1,5 @@
 import React from 'react';
-import PCHeader from "./component/pc_header";
-import "../css/pc.css";
+import  "../css/pc.css";
 import "../css/mobile.css"
 import 'antd/dist/antd.css';
 import MediaQuery from 'react-responsive';
