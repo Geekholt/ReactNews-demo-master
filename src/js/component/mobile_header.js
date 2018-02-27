@@ -1,15 +1,11 @@
 import React from 'react';
 import {
-    Row,
-    Col,
-    Menu,
     Icon,
     Button,
     Modal,
     Tabs,
     Input,
     Form,
-    Checkbox,
     message
 
 } from 'antd';
@@ -33,7 +29,7 @@ class MobileHeader extends React.Component {
     }
 
     componentWillMount() {
-        if (localStorage.userid != '') {
+        if (localStorage.userid !== '') {
             this.setState({
                 hasLogined: true,
                 username: localStorage.userNickName,

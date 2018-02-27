@@ -17,3 +17,86 @@
     display: flex;
     justify-content: center;
 }
+
+.container {
+    margin-top: 13px;
+    display: flex;
+    flex-direction: column;
+}
+
+.leftContainer {
+    float: left;
+    margin-right: 10px;
+
+}
+
+.carousel {
+    float: left;
+    width: 400px;
+    margin-bottom: 16px;
+}
+
+.leftImageBlock {
+    width: 400px;
+
+}
+
+.pc_new_block {
+    width: 460px;
+    text-align: left;
+}
+
+.pc_new_block ul {
+    padding: 0px;
+    list-style-type: none;
+}
+
+.pc_new_block p {
+    font-size: 14px;
+    line-height: 14px !important;
+    color: #666 !important;
+    width: 420px;
+    overflow: hidden; /*超出部分隐藏*/
+    white-space: nowrap; /*不换行*/
+    text-overflow: ellipsis; /*超出部分文字以...显示*/
+}
+
+.pc_new_image_block {
+    float: left;
+    text-align: left;
+}
+
+.pc_new_image_block ul {
+    padding: 0px;
+    margin: 0px;
+    list-style-type: none;
+
+}
+
+.pc_new_image_block li {
+    float: left;
+    margin-right: 6px;
+    margin-left: 6px;
+
+}
+
+.pc_new_image_block img {
+    display: block;
+    width: 103px;
+}
+
+.pc_new_image_block h5 {
+    width: 103px;
+    overflow: hidden; /*超出部分隐藏*/
+    white-space: nowrap; /*不换行*/
+    text-overflow: ellipsis; /*超出部分文字以...显示*/
+}
+
+.tabs_news {
+    float: left;
+    width: 460px;
+}
+
+.inlineImageBlock {
+    margin-top: 13px;
+}

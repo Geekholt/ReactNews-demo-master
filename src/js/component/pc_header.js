@@ -9,10 +9,8 @@ import {
     Tabs,
     Input,
     Form,
-    Checkbox,
     message
 } from 'antd';
-import register from "../../registerServiceWorker";
 import 'whatwg-fetch';
 
 const logo = require('../../images/logo.png');
@@ -33,7 +31,7 @@ class PCHeader extends React.Component {
     }
 
     componentWillMount() {
-        if (localStorage.userid != '') {
+        if (localStorage.userid !== '') {
             this.setState({
                 hasLogined: true,
                 username: localStorage.userNickName,
@@ -174,7 +172,6 @@ class PCHeader extends React.Component {
                             </Menu.Item>
                         </Menu>
                     </Col>
-
 
                     <Modal
                         title="用户中心"
