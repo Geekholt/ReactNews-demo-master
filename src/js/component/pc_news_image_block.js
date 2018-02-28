@@ -3,7 +3,7 @@ import {
     Card
 } from 'antd';
 
-import {BrowserRouter as Router, Route, Link} from "react-router-dom"
+import {Link} from "react-router-dom"
 
 export default class PCNewsImageBlock extends React.Component {
     constructor() {
@@ -35,9 +35,10 @@ export default class PCNewsImageBlock extends React.Component {
         const newsList = news.length
             ? news.map((newsItem, index) => (
                 <li key={index}>
-                    <div>
+                    <div className="news_card">
                         <img src={newsItem.thumbnail_pic_s} alt="pic"/>
-                        <h5>{newsItem.title}</h5>
+                        <span className="news_title">{newsItem.title}</span>
+                        <span className="news_from">{newsItem.author_name}</span>
                     </div>
                 </li>
             ))

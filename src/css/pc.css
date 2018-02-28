@@ -85,7 +85,23 @@
     width: 103px;
 }
 
-.pc_new_image_block h5 {
+.news_card{
+    margin-top: 8px;
+    margin-bottom: 8px;
+}
+
+.news_title {
+    display: block;
+    width: 103px;
+    overflow: hidden; /*超出部分隐藏*/
+    white-space: nowrap; /*不换行*/
+    text-overflow: ellipsis; /*超出部分文字以...显示*/
+}
+
+.news_from {
+    display: block;
+    font-size: 12px;
+    color: darkgray;
     width: 103px;
     overflow: hidden; /*超出部分隐藏*/
     white-space: nowrap; /*不换行*/
@@ -99,4 +115,12 @@
 
 .inlineImageBlock {
     margin-top: 13px;
+}
+
+.news_detail{
+    margin-top: 20px;
+}
+
+.articleContainer{
+    padding-right: 50px;
 }

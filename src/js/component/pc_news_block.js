@@ -3,7 +3,7 @@ import {
     Card
 } from 'antd';
 
-import {BrowserRouter as Router, Route, Link} from "react-router-dom"
+import {Link} from "react-router-dom"
 
 export default class PCNewsBlock extends React.Component {
     constructor() {
@@ -34,16 +34,11 @@ export default class PCNewsBlock extends React.Component {
         const {news} = this.state;
         const newsList = news.length
             ? news.map((newsItem, index) => (
-                <Router>
-                    <div>
-                        <li key={index}>
-                            <Link to={`details/${newsItem.uniquekey}`}>
-                                <p>{newsItem.title}</p>
-                            </Link>
-                        </li>
-                        <Route path={`details/${newsItem.uniquekey}`}/>
-                    </div>
-                </Router>
+                <li key={index}>
+                    <Link to={`details/${newsItem.uniquekey}`}>
+                        <p>{newsItem.title}</p>
+                    </Link>
+                </li>
             ))
             : this.state.emptyText;
         return (
